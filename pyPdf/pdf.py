@@ -1374,7 +1374,7 @@ class PageObject(DictionaryObject):
     # Stability: Added in v1.7, will exist for all future v1.x releases.  May
     # be overhauled to provide more ordered text in the future.
     # @return a unicode string object
-    def extractText(self):
+    def extractText(self, Tj_sep="", TJ_sep=""):
         text = u""
         content = self["/Contents"].getObject()
         if not isinstance(content, ContentStream):
@@ -1386,6 +1386,7 @@ class PageObject(DictionaryObject):
             if operator == "Tj":
                 _text = operands[0]
                 if isinstance(_text, TextStringObject):
+                    text += Tj_sep
                     text += _text
             elif operator == "T*":
                 text += "\n"
@@ -1402,6 +1403,7 @@ class PageObject(DictionaryObject):
             elif operator == "TJ":
                 for i in operands[0]:
                     if isinstance(i, TextStringObject):
+                        text += TJ_sep
                         text += i
         return text
 
